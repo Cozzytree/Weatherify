@@ -95,7 +95,6 @@ function WeatherProvider({ children }) {
       const data = await response.json();
       if (data.error) throw new Error(data.error.message);
 
-      console.log(data);
       dispatch({
         type: "fetched/weather",
         payload: {
