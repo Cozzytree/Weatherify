@@ -5,7 +5,7 @@
 #root {
   display: flex;
   justify-content: center;
-  background-image: url("../Assets/pexels-tim-mossholder-3222686.jpg");
+  background-image: url("../public/pexels-tim-mossholder-3222686.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
