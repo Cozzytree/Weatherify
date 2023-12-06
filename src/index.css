@@ -88,3 +88,17 @@
 .sidebar::-webkit-scrollbar {
   width: 1;
 }
+
+.appear-slow {
+  animation: ease-in appear 300ms;
+}
+@keyframes appear {
+  from {
+    height: 0;
+    opacity: 0.5;
+  }
+  to {
+    height: 100%;
+    opacity: 1;
+  }
+}

@@ -6,7 +6,7 @@ function AppLayout() {
     <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       <WeatherForm />
 
-      <main className="flex justify-center items-center">
+      <main className="flex justify-center items-center backdrop-blur-[2px]">
         <Outlet />
       </main>
 

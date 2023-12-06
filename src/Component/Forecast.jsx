@@ -4,6 +4,7 @@ import { random } from "./Cities";
 import { useEffect, useRef, useState } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { createPortal } from "react-dom";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -18,13 +19,13 @@ function Forecast() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (chartRef.current === event.target) {
+      if (chartRef.current && !chartRef.current.contains(event.target)) {
         setShowChart(false);
       }
     };
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("click", handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, [setShowChart]);
 
@@ -47,12 +48,14 @@ function Forecast() {
     theme: "dark2",
     width: width,
     height: height,
-    dataPointMaxWidth: 10,
+    backgroundColor: "#3e3e3e",
+    dataPointMaxWidth: 8,
     dataPointMinWidth: 2,
     title: {
+      cornerRadius: 10,
       text: "Temperature (in celcius) throught the day",
       fontFamily: "Impact",
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: "light",
     },
     axisX: {
@@ -97,16 +100,18 @@ function Forecast() {
           />
         ))}
       </div>
-      {showChart && (
-        <div
-          className="absolute w-screen inset-0 flex justify-center items-center backdrop-blur-sm bg-stone-500/5 transition-all duration-100"
-          ref={chartRef}
-        >
-          <div className="w-[18em] sm:w-[38em] md:w-[25] flex justify-center">
-            <CanvasJSChart options={options} />
-          </div>
-        </div>
-      )}
+      {showChart &&
+        createPortal(
+          <div className="absolute w-screen inset-0 flex justify-center items-center backdrop-blur-sm bg-stone-500/5 transition-all duration-100 appear-slow ">
+            <div
+              className="w-[18em] sm:w-[38em] md:w-[25] flex justify-center"
+              ref={chartRef}
+            >
+              <CanvasJSChart options={options} />
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 }
@@ -122,7 +127,7 @@ function ForecastItem({ forecast, setData, setShowChart }) {
   }
 
   return (
-    <div className="sm:w-[12em] bg-stone-700/20 h-[15em] rounded-lg p-2 w-52 cursor-pointer md:hover:scale-105 transition-all duration-300 backdrop-blur-[1px] space-y-2 tracking-tight">
+    <div className="sm:w-[12em] bg-stone-700/20 h-[15em] rounded-lg p-2 w-52 md:hover:scale-105 transition-all duration-300 backdrop-blur-[1px] space-y-2 tracking-tight">
       <p className="text-sm font-bold tracking-tight">{forecast.date}</p>
       <div>
         <img
