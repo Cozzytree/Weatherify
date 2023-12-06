@@ -90,7 +90,7 @@
 }
 
 .appear-slow {
-  animation: ease-in appear 300ms;
+  animation: ease-in-out appear 100ms;
 }
 @keyframes appear {
   from {
